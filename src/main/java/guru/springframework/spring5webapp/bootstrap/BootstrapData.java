@@ -2,8 +2,10 @@ package guru.springframework.spring5webapp.bootstrap;
 
 import guru.springframework.spring5webapp.model.Author;
 import guru.springframework.spring5webapp.model.Book;
+import guru.springframework.spring5webapp.model.Publisher;
 import guru.springframework.spring5webapp.repository.AuthorRepository;
 import guru.springframework.spring5webapp.repository.BookRepository;
+import guru.springframework.spring5webapp.repository.PublisherRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -22,10 +24,12 @@ public class BootstrapData implements CommandLineRunner {
     //Dependecies injection
     private final AuthorRepository authorRepository;
     private final BookRepository bookRepository;
+    private final PublisherRepository publisherRepository;
 
-    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository) {
+    public BootstrapData(AuthorRepository authorRepository, BookRepository bookRepository, PublisherRepository publisherRepository) {
         this.authorRepository = authorRepository;
         this.bookRepository = bookRepository;
+        this.publisherRepository = publisherRepository;
     }
 
     @Override
@@ -50,6 +54,18 @@ public class BootstrapData implements CommandLineRunner {
 
         System.out.println("Started in Bootstrap");
         System.out.println("Number of books: " + bookRepository.count());
+
+        System.out.println("Started in Bootstrap");
+
+        //Tarea 2
+        Publisher publisher = new Publisher();
+        publisher.setName("SFG Publishing");
+        publisher.setCity("St Petersburg");
+        publisher.setState("FL");
+
+        publisherRepository.save(publisher);
+
+        System.out.println("Publisher Count: " + publisherRepository.count());
 
     }
 }
