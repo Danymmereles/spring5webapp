@@ -1,9 +1,7 @@
 package guru.springframework.spring5webapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -12,12 +10,17 @@ public class Publisher {
 
     @Id //Como va a ser una entidad necesitamos una pk
     @GeneratedValue(strategy = GenerationType.AUTO) //La forma de generar la pk
-    private  Long id;
+    private Long id;
     private String name;
     private String adressLine1;
     private String city;
     private String state;
     private String zip;
+
+    @OneToMany //1 Publisher = Many Books
+    @JoinColumn(name = "publisher_id")
+    /*Le da el conocimiento a hibernate q con esto se hace la FK*/
+    private Set<Book> books = new HashSet<>();
 
     //Constructors
     public Publisher() {}
@@ -36,8 +39,20 @@ public class Publisher {
     public String getName() {
         return name;
     }
-    public String getAdress() {
-        return adressLine1 + " " + city + " " + state + " " + zip;
+    public String getAdressLine1() {
+        return adressLine1;
+    }
+    public String getCity() {
+        return city;
+    }
+    public String getState() {
+        return state;
+    }
+    public String getZip() {
+        return zip;
+    }
+    public Set<Book> getBooks() {
+        return books;
     }
 
     //Setters
@@ -47,9 +62,6 @@ public class Publisher {
     public void setName(String name) {
         this.name = name;
     }
-    public void setAdress(String adress) {
-        this.adressLine1 = adress;
-    }
     public void setCity(String city) {
         this.city = city;
     }
@@ -58,6 +70,12 @@ public class Publisher {
     }
     public void setZip(String zip) {
         this.zip = zip;
+    }
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+    public void setAdressLine1(String adressLine1) {
+        this.adressLine1 = adressLine1;
     }
 
     @Override
@@ -69,7 +87,6 @@ public class Publisher {
 
         return id != null ? id.equals(publisher.id) : publisher.id == null;
     }
-
     @Override
     public int hashCode() {
         return id != null ? id.hashCode() : 0;
@@ -77,7 +94,6 @@ public class Publisher {
 
 
     //ToString
-
     @Override
     public String toString() {
         return "Publisher{" +
