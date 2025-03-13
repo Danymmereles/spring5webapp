@@ -1,6 +1,7 @@
 package guru.springframework.spring5webapp.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
 
 /*
@@ -57,5 +58,31 @@ public class Author {
     }
     public void setId(Long id) {
         this.id = id;
+    }
+
+    //Equals and hashcode
+    /*
+        Solo usaremos el id porque es la forma de identificar a un autor
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return Objects.equals(id, author.id);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id);
+    }
+
+    //ToString
+    @Override
+    public String toString() {
+        return "Author{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", books=" + books +
+                '}';
     }
 }
